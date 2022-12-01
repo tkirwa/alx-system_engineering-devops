@@ -1,2 +1,2 @@
 #!/bin/bash
-chown vincent.staff a+X
+chown vincent.staff * 

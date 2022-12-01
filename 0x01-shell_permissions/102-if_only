@@ -1,2 +1,2 @@
 #!/bin/bash
-chown -user guillaume betty hello
+chown --user=guillaume betty hello

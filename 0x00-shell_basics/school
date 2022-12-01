@@ -1,2 +1,3 @@
-0	string SCHOOL These are school data files
+#!/bin/bash
+0	string SCHOOL School data
 !:mime School

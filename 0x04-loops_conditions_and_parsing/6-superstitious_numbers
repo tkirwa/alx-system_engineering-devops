@@ -1,26 +1,19 @@
 #!/usr/bin/env bash
-
-count=1
-
-while [ $count -le 20 ]
+# Displays numbers from 1 to 20 and and other features
+i=1
+while [ $i -le 20 ]
 do
-    case $count in
-        4)
-            echo $count
-            echo "bad luck from China"
-            ;;
-        9)
-            echo $count
-            echo "bad luck from Japan"
-            ;;
-        17)
-            echo $count
-            echo "bad luck from Italy"
-            ;;
-        *)
-            echo $count
-            ;;
-    esac
-
-    count=$((count+1))
+	echo $i
+	case $i in
+		4)
+			echo "bad luck from China"
+			;;
+		9)
+			echo "bad luck from Japan"
+			;;
+		17)
+			echo "bad luck from Italy"
+			;;
+		esac
+		((i++))
 done

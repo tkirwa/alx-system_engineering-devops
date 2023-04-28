@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Run the ps command with options to show all processes for all users, including those without a TTY,
+# display in a user-oriented format, and show process hierarchy.
+ps axjf

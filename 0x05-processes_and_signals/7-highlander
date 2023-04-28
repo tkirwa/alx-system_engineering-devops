@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-
-# This script displays "To infinity and beyond" indefinitely, with a sleep of 2 seconds between each iteration. It also displays "I am invincible!!!" when receiving a SIGTERM signal.
+# Displays "To infinity and beyond" indefinitely with
+#+ a sleep 2 in between each iteration.
+#   Displays "I am invincible!!!" in between each iteration.
 
 while true
 do

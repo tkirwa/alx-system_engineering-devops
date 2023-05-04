@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+cp /etc/hosts ~/hosts.new
+# Replace 127.0.0.2 with desired IP for localhost
+sed -i 's/127\.0\.0\.1/127.0.0.2/g' ~/hosts.new
+
+# Replace 8.8.8.8 with desired IP for facebook.com
+sudo sed -i 's/facebook\.com/8.8.8.8/g' ~/hosts.new
+
+cp -f ~/hosts.new /etc/hosts

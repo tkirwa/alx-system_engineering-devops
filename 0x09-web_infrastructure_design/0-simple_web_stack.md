@@ -1,4 +1,4 @@
-### 0ne-Server Web Infrastructure
+### Simple Web Stack - 0ne-Server Web Infrastructure
 [![](https://raw.githubusercontent.com/tkirwa/alx-system_engineering-devops/master/0x09-web_infrastructure_design/images/0-simple_web_stack.jpg)](https://raw.githubusercontent.com/tkirwa/alx-system_engineering-devops/master/0x09-web_infrastructure_design/images/0-simple_web_stack.jpg)
 *   **User Requesting the Website:** A user wants to access the website [www.foobar.com](http://www.foobar.com) by typing it into their web browser.
     

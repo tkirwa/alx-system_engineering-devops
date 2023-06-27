@@ -1,9 +1,40 @@
-Add comments to the puppet code below - 7-puppet_install_nginx_web_server.pp
+# Install and configure Nginx server with Puppet
 
+# Install Nginx package
+package { 'nginx':
+  ensure => installed,
+}
 
-# Installs a Nginx server
+# Configure Nginx server
+file { '/etc/nginx/sites-available/default':
+  ensure  => present,
+  content => "
+    server {
+      listen 80;
+      root /var/www/html;
+      index index.html index.htm;
+      
+      location / {
+        return 301 https://\$host\$request_uri;
+      }
+      
+      location = /redirect_me {
+        return 301 https://www.example.com/;
+      }
+    }
+  ",
+  notify  => Service['nginx'],
+}
 
-exec {'install':
-  provider => shell,
-  command  => 'sudo apt-get -y update ; sudo apt-get -y install nginx ; echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html ; sudo sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/tkirwa permanent;/" /etc/nginx/sites-available/default ; sudo service nginx start',
+# Set index.html content
+file { '/var/www/html/index.html':
+  ensure  => present,
+  content => 'Hello World!',
+}
+
+# Ensure Nginx service is running and enabled
+service { 'nginx':
+  ensure    => running,
+  enable    => true,
+  subscribe => File['/etc/nginx/sites-available/default'],
 }

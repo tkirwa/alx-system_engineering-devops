@@ -1,19 +1,29 @@
 #!/usr/bin/env bash
-# Script to configure custom 404 page in Nginx
+# Script to configure Nginx server with a custom 404 page
 
-# Install Nginx if not already installed
+# Update the package repositories
 sudo apt-get update
+
+# Install Nginx
 sudo apt-get install -y nginx
 
-# Create a backup of the default configuration file
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-
+# Create the index.html file with "Hello World!" content
 echo "Hello World!" | sudo tee /var/www/html/index.html
-sudo sed -i "/listen 80 default_server;/a rewrite ^/redirect_me https://twitter.com/tonnykirwa permanent;" /etc/nginx/sites-enabled/default
 
-echo "Ceci n'est pas une page" > /usr/share/nginx/html/page_error_404.html
+# Define the string for replacement to enable redirection of /redirect_me
+string_for_redirection="server_name _;\n\trewrite ^\/redirect_me https:\/\/oluwaseundasilva.hashnode.dev permanent;"
 
-sudo sed -i '37i error_page 404 /page_error_404.html;\nlocation = /page_error_404.html {\nroot /usr/share/nginx/html; \ninternal;\n}\n' /etc/nginx/sites-enabled/default
+# Replace the specified line in the Nginx configuration file with the new string for redirection
+sudo sed -i "s/server_name _;/$string_for_redirection/" /etc/nginx/sites-enabled/default
 
-# Restart Nginx
+# Create the 404.html file with "Ceci n'est pas une page" content
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+
+# Define the string for replacement to add redirect for error 404
+string_for_404="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
+
+# Replace the specified line in the Nginx configuration file with the new string for error 404 redirection
+sudo sed -i "s/listen 80 default_server;/$string_for_404/" /etc/nginx/sites-enabled/default
+
+# Restart the Nginx service to apply the changes
 sudo service nginx restart

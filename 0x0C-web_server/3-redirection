@@ -12,7 +12,7 @@ sudo apt-get install -y nginx
 echo "Hello World!" | sudo tee /var/www/html/index.html
 
 # Define the string for replacement in the Nginx configuration file
-string_for_replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/oluwaseundasilva.hashnode.dev permanent;"
+string_for_replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/dev.to/tkirwa permanent;"
 
 # Replace the specified line in the Nginx configuration file with the new string
 sudo sed -i "s/server_name _;/$string_for_replacement/" /etc/nginx/sites-enabled/default

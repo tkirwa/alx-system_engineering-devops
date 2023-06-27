@@ -1,15 +1,21 @@
 #!/usr/bin/env bash
-# Script that configures Nginx server with a custom 404 page
+# Script that installs Nginx server, redirects /redirect_me, and customizes 404 not found
 
-# Install Nginx server if not already installed
+# Update package repositories
 sudo apt-get -y update
+
+# Install Nginx server
 sudo apt-get -y install nginx
+
+# Allow incoming connections to Nginx HTTP port
+sudo ufw allow 'Nginx HTTP'
 
 # Create a custom 404 error page with the string "Ceci n'est pas une page"
 echo "Ceci n'est pas une page" | sudo tee /usr/share/nginx/html/404.html
 
-# Update the Nginx default configuration to use the custom 404 page
-sudo sed -i '/listen 80 default_server;/a \    error_page 404 /404.html;' /etc/nginx/sites-available/default
+# Define the configuration lines for custom 404 page and append them to Nginx configuration
+newlines="\\\terror_page 404 /404.html;\n\tlocation = /404.html {\n\t\troot /usr/share/nginx/html;\n\t\tinternal;\n\t}"
+sudo sed -i "27i $newlines" /etc/nginx/sites-available/default
 
 # Restart Nginx to apply the configuration changes
 sudo service nginx restart

@@ -2,7 +2,7 @@
 # Script to set up a basic Apache server
 
 # Add "ServerName localhost" to the Apache configuration file
-echo "ServerName localhost" >> /etc/apache2.conf
+echo "ServerName localhost" > /etc/apache2.conf
 
 # Start the Apache service
 service apache2 start

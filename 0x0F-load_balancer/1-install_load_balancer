@@ -2,7 +2,9 @@
 
 # Install HAProxy
 sudo apt-get update
+sudo apt-get install -y --no-install-recommends software-properties-common
 sudo apt-get install -y haproxy
+
 
 # Configure HAProxy
 sudo sed -i 's/^\(ENABLED=\).*/\11/' /etc/default/haproxy
@@ -17,29 +19,9 @@ frontend realmigo.tech
 backend realmigo.tech
     mode http
     balance roundrobin
-    server web-01 34.204.95.241:80 check
-    server web-02 52.87.230.196:80 check
+    server 197522-web-01 34.204.95.241:80 check
+    server 197522-web-02 52.87.230.196:80 check
 EOT
-
-# Restart HAProxy service
-sudo service haproxy restart
-#!/usr/bin/env bash
-# Configure Nginx so that its HTTP response contains
-# a custom header
-
-# Add HAProxy PPA
-sudo apt-get -y install software-properties-common
-sudo add-apt-repository -y ppa:vbernat/haproxy-2.5
-sudo apt-get -y update
-
-# Install HAProxy
-sudo apt-get -y install haproxy
-
-# Enable HAProxy in the configuration file
-sudo sed -i -e '$aENABLED=1\n' /etc/default/haproxy
-
-# Configure the HAProxy backend
-sudo sed -i -e '$a\listen http-in\n\tbind :80\n\tbalance roundrobin\n\tserver 197522-web-01 34.204.95.241:80 check\n\tserver 197522-web-02 52.87.230.196:80 check\n' /etc/haproxy/haproxy.cfg
 
 # Restart HAProxy service
 sudo service haproxy restart

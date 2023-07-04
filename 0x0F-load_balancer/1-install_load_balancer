@@ -1,27 +1,25 @@
 #!/usr/bin/env bash
+# configure a load-balancing server
 
 # Install HAProxy
-sudo apt-get update
 sudo apt-get install -y --no-install-recommends software-properties-common
+sudo apt-get update -y
 sudo apt-get install -y haproxy
-
 
 # Configure HAProxy
 sudo sed -i 's/^\(ENABLED=\).*/\11/' /etc/default/haproxy
 
-# Create a new HAProxy configuration file
-sudo tee /etc/haproxy/haproxy.cfg > /dev/null <<EOT
+echo \
+	"
 frontend realmigo.tech
-    bind *:80
-    mode http
-    default_backend realmigo.tech
-
+	bind *:80
+	mode http
+	default_backend realmigo.tech
 backend realmigo.tech
-    mode http
-    balance roundrobin
-    server 197522-web-01 34.204.95.241:80 check
-    server 197522-web-02 52.87.230.196:80 check
-EOT
+	mode http
+	balance roundrobin
+	server 197522-web-01 34.204.95.241
+	server 197522-web-02 52.87.230" >> /etc/haproxy/haproxy.cfg
 
 # Restart HAProxy service
 sudo service haproxy restart

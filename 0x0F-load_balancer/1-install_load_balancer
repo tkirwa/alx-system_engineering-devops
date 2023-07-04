@@ -9,12 +9,12 @@ sudo sed -i 's/^\(ENABLED=\).*/\11/' /etc/default/haproxy
 
 # Create a new HAProxy configuration file
 sudo tee /etc/haproxy/haproxy.cfg > /dev/null <<EOT
-frontend load_balancer
+frontend realmigo.tech
     bind *:80
     mode http
-    default_backend webservers
+    default_backend realmigo.tech
 
-backend webservers
+backend realmigo.tech
     mode http
     balance roundrobin
     server web-01 34.204.95.241:80 check

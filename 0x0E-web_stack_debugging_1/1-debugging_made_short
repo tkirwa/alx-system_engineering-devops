@@ -1,14 +1,6 @@
 #!/usr/bin/env bash
 # Configures an Nginx server to listen on port 80.
 
-# Remove the existing symbolic link to the default configuration file
-rm /etc/nginx/sites-enabled/default
-
-# Create a new symbolic link pointing to the default configuration file
-ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-
-# Start the Nginx service
-service nginx start
-
-# Terminate the oldest Nginx process
-kill "$(pgrep 'nginx' | head -1)"
+sed -i 's/8080/80/g' /etc/nginx/sites-available/default
+service nginx restart
+pkill -o nginx

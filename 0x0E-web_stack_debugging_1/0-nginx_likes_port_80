@@ -5,7 +5,7 @@
 rm /etc/nginx/sites-enabled/default
 
 # Create a new symbolic link pointing to the default configuration
-# ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 # Restart the Nginx service to apply the configuration changes
 service nginx restart

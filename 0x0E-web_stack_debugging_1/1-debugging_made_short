@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # Starts nginx and updates its status
-
 sudo service nginx start
-sudo service nginx status | grep "inactive" > /dev/null && echo "nginx is not running"
+sudo service nginx status | grep "inactive" > /dev/null
+sudo echo "nginx is not running"

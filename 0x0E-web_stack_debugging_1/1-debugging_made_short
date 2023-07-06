@@ -8,4 +8,4 @@ sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
 service nginx restart
 
 # Terminate the oldest Nginx process to ensure a clean restart
-pkill -o nginx
+# pkill -o nginx

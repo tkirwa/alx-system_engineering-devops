@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Starts nginx and updates its status
-sudo service nginx start
-sudo service nginx status | grep "inactive" > /dev/null
-sudo echo "nginx is not running"
+# This script configures the server to listen on port 80 of all server's active IPv4 IPs
+sudo sed -i "s/8080/80/" /etc/nginx/sites-enabled/default # Change the default configuration to listen on port 80 instead of 8080
+sudo service nginx restart # Restart the nginx service to apply the configuration changes
+echo "" | sudo dd status=none of=/run/nginx.pid # Clear the contents of the /run/nginx.pid file to indicate that nginx is not running

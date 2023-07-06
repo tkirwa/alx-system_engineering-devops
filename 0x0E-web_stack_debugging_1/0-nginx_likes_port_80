@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Setting up the server to allow curl on port 80 without issues
+# Setting up server to curl port 80 with no issues
 
 # Update the package repositories
 apt-get update
@@ -15,4 +15,4 @@ rm /etc/nginx/sites-enabled/*~
 sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
 
 # Restart the nginx service to apply the configuration changes
-sudo service nginx restart
+service nginx restart

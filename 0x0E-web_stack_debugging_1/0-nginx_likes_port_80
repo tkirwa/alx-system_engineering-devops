@@ -1,8 +1,23 @@
 #!/usr/bin/env bash
-# This script opens port 80 for Nginx
+# This script configures Nginx to listen on port 80
+
+# Start Nginx if it's not running
+service nginx status > /dev/null
+if [ $? -ne 0 ]; then
+  service nginx start
+fi
 
 # Update Nginx configuration to listen on port 80
-sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
+config_file="/etc/nginx/sites-available/default"
+if ! grep -q "listen 80" "$config_file"; then
+  sed -i 's/listen 80 default_server/listen 80/g' "$config_file"
+fi
 
-# Restart Nginx to apply the configuration changes
+# Allow incoming connections on port 80 in the firewall
+ufw status | grep -q "Status: active"
+if [ $? -eq 0 ]; then
+  ufw allow 80
+fi
+
+# Restart Nginx
 service nginx restart

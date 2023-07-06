@@ -2,7 +2,7 @@
 # This script configures Nginx to listen on port 80
 
 # Start Nginx if it's not running
-service nginx status > /dev/null
+sudo service nginx status > /dev/null
 if [ $? -ne 0 ]; then
   service nginx start
 fi
@@ -20,4 +20,4 @@ if [ $? -eq 0 ]; then
 fi
 
 # Restart Nginx
-service nginx restart
+sudo service nginx restart

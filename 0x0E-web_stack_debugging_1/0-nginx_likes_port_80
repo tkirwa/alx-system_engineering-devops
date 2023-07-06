@@ -1,12 +1,6 @@
 #!/usr/bin/env bash
 # Setting up server to curl port 80 with no issues
 
-# Update the package repositories
-apt-get update
-
-# Install curl package
-apt-get -y install curl
-
 # Remove any existing nginx configuration files
 rm /etc/nginx/sites-available/*
 rm /etc/nginx/sites-enabled/*~

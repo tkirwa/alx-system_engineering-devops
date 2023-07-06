@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-# Configure Nginx server to listen on port 80 as before
-
-# Update the Nginx configuration file to replace port 8080 with port 80
-sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
-
-# Terminate the oldest Nginx process to ensure a clean restart
-pkill -1 nginx

@@ -42,9 +42,11 @@ frontend realmigo.tech
 frontend www.realmigo.tech
     bind *:443 ssl crt /etc/haproxy/ssl/www.realmigo.tech.pem
     mode http
+    redirect scheme https code 301 if !{ ssl_fc }
     default_backend realmigo.tech
 
 backend realmigo.tech
     balance roundrobin
+    redirect scheme https code 301 if !{ ssl_fc }
     server 197522-web-01 34.204.95.241:80 check
     server 197522-web-02 52.87.230.196:80 check

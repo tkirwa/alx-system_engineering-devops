@@ -23,7 +23,7 @@ frontend www-http
     reqadd X-Forwarded-Proto:\ http
     default_backend realmigo.tech
 
-frontend realmigo.tech
+frontend www-https
     bind   0.0.0.0:443 ssl crt /etc/letsencrypt/live/www.realmigo.tech/fullchain.pem
     reqadd X-Forwarded-Proto:\ https
     acl    letsencrypt-acl path_beg /.well-known/acme-challenge/

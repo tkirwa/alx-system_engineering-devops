@@ -1,0 +1,40 @@
+global
+    log     /dev/log local0
+    maxconn 2048
+    user    haproxy
+    group   haproxy
+    tune.ssl.default-dh-param 2048
+
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    retries 3
+    option  redispatch
+    timeout connect  5000
+    timeout client  10000
+    timeout server  10000
+    option  forwardfor
+    option  http-server-close
+
+frontend www-http
+    bind   0.0.0.0:80
+    reqadd X-Forwarded-Proto:\ http
+    default_backend realmigo.tech
+
+frontend www-https
+    bind   0.0.0.0:443 ssl crt /etc/letsencrypt/live/www.realmigo.tech/fullchain.pem
+    reqadd X-Forwarded-Proto:\ https
+    acl    letsencrypt-acl path_beg /.well-known/acme-challenge/
+    use_backend letsencrypt-realmigo-tech if letsencrypt-acl
+    default_backend realmigo.tech
+
+backend realmigo.tech
+    balance  roundrobin
+    redirect scheme https if !{ ssl_fc }
+    server 197522-web-01 34.204.95.241:80 check
+    server 197522-web-02 52.87.230.196:80 check
+
+backend letsencrypt-realmigo-tech
+    server letsencrypt 127.0.0.1:54321

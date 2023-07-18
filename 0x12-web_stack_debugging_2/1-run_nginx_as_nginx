@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 # Configures Nginx to run as the nginx user and listen on port 8080
 
-# Stop Nginx service
-service nginx stop
+#!/usr/bin/env bash
+# Configures Nginx to run as the nginx user and listen on port 8080
+
+# Create the nginx user if it doesn't already exist
+if ! getent passwd nginx > /dev/null; then
+    adduser --system --no-create-home --disabled-login --disabled-password --group nginx
+fi
 
 sed -i "s/#user www-data/user nginx/" /etc/nginx/nginx.conf
 sed -i "s/80/8080/g" /etc/nginx/sites-available/default

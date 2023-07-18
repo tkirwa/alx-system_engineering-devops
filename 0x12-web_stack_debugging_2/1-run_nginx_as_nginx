@@ -1,10 +1,18 @@
 #!/usr/bin/env bash
 
-# Update the nginx configuration to run as the nginx user
-sed -i 's/user\s*\(.*\);/user nginx;/' /etc/nginx/nginx.conf
+# Fixes the issue with the server
 
-# Update the nginx configuration to listen on port 8080 for all IPs
-sed -i '/listen\s*\(.*\);/s/80/8080/' /etc/nginx/sites-available/default
+# Change permissions of the nginx.conf file to 644
+chmod 644 /etc/nginx/nginx.conf
 
-# Restart the nginx service
-service nginx restart
+# Replace the 'user' directive in nginx.conf with 'user nginx;'
+sed -Ei 's/\s*#?\s*user .*/user nginx;/' /etc/nginx/nginx.conf
+
+# Modify the default Nginx server configuration to listen on port 80
+sed -Ei 's/(listen (\[::\]:)?80) /\180 /' /etc/nginx/sites-enabled/default
+
+# Terminate any running instances of Apache2
+pkill apache2
+
+# Restart the Nginx service as the 'nginx' user
+su nginx -s /bin/bash -c 'service nginx restart'

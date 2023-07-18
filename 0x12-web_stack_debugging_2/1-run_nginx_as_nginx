@@ -15,4 +15,4 @@ sed -Ei 's/(listen (\[::\]:)?80) /\180 /' /etc/nginx/sites-enabled/default
 pkill apache2
 
 # Restart the Nginx service as the 'nginx' user
-su nginx -s /bin/bash -c 'service nginx restart'
+sudo -u nginx service nginx start

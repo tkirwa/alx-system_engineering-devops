@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 # Configures Nginx to run as the nginx user and listen on port 8080
 
-#!/usr/bin/env bash
-# Configures Nginx to run as the nginx user and listen on port 8080
-
-# Create the nginx user if it doesn't already exist
-if ! getent passwd nginx > /dev/null; then
-    adduser --system --no-create-home --disabled-login --disabled-password --group nginx
+# Create the nginx user if it doesn't exist
+if ! id -u nginx >/dev/null 2>&1; then
+    useradd -r nginx
 fi
 
-sed -i "s/#user www-data/user nginx/" /etc/nginx/nginx.conf
-sed -i "s/80/8080/g" /etc/nginx/sites-available/default
-chmod 644 /etc/nginx/nginx.conf
-pkill apache2
-sudo -u nginx service nginx restart
+# Update nginx.conf to run as the nginx user
+sed -i 's/user .*/user nginx;/' /etc/nginx/nginx.conf
+
+# Update default site configuration to listen on port 8080
+sed -i '/listen\s*\(.\+\):\([^;]\+\);/ s/80;/8080;/' /etc/nginx/sites-available/default
+
+# Restart Nginx service to apply the changes
+service nginx restart

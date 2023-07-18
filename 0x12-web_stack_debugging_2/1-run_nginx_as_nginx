@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # Configures Nginx to run as the nginx user and listen on port 8080
 
+# Create the nginx user if it doesn't already exist
+if ! id -u nginx > /dev/null 2>&1; then
+    useradd -r nginx
+fi
+
 # Replace the 'user' directive in nginx.conf with 'user nginx;'
 sed -i 's/^user .*/user nginx;/' /etc/nginx/nginx.conf
 

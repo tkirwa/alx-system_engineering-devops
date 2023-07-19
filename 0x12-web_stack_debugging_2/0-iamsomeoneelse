@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# This script runs the whoami command under the user passed as an argument
 
-if [ "$#" -ne 1 ]; then
+# Check if an argument is provided
+if [ $# -ne 1 ]; then
   echo "Usage: $0 <username>"
   exit 1
 fi
 
-su "$1" -s /bin/bash -c 'whoami'
+# Switch to the specified user and run the 'whoami' command
+su - "$1" -c "whoami"

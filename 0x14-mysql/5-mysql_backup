@@ -16,4 +16,4 @@ mysqldump --all-databases -u root --password="$1" > backup.sql
 tar -czvf "$file_name" backup.sql
 
 # Clean up the temporary backup.sql file
-rm backup.sql
+# rm backup.sql

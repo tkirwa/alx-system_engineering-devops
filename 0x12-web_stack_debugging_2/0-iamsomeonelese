@@ -6,8 +6,5 @@ if [ "$#" -ne 1 ]; then
   exit 1
 fi
 
-# Set the HOME environment variable for the specified user
-export HOME=$(getent passwd "$1" | cut -d: -f6)
-
 # Run whoami command as the specified user
 sudo -H -u "$1" whoami

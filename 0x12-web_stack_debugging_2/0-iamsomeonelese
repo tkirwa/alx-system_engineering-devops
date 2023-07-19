@@ -6,8 +6,8 @@ if [ "$#" -ne 1 ]; then
   exit 1
 fi
 
-# Get the user's home directory
-# user_home=$(getent passwd "$1" | awk -F':' '{print $6}')
+# Set the HOME environment variable for the specified user
+export HOME=$(getent passwd "$1" | cut -d: -f6)
 
 # Run whoami command as the specified user
 sudo -H -u "$1" whoami

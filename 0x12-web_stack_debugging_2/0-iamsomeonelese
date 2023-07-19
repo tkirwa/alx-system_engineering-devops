@@ -7,7 +7,7 @@ if [ "$#" -ne 1 ]; then
 fi
 
 # Get the user's home directory
-user_home=$(getent passwd "$1" | awk -F':' '{print $6}')
+# user_home=$(getent passwd "$1" | awk -F':' '{print $6}')
 
 # Run whoami command as the specified user
 sudo -H -u "$1" whoami

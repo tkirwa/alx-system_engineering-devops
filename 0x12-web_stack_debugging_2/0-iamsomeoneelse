@@ -1,3 +1,20 @@
 #!/usr/bin/env bash
-usr="$1"
-sudo -u "$usr" whoami
+# This script runs the whoami command under the user passed as an argument
+
+# Check if an argument is provided
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 <username>"
+  exit 1
+fi
+
+# Store the first argument as the username
+username="$1"
+
+# Get the user ID (UID) of the specified user without HOME environment variable
+uid=$(id -u "$username")
+
+# Run the whoami command under the specified user without HOME
+result=$(sudo -u "#$uid" HOME="" whoami)
+
+# Output the result (username without HOME)
+echo "$result"

@@ -14,4 +14,4 @@ username="$1"
 uid=$(id -u "$username")
 
 # Run the whoami command under the specified user without HOME
-sudo -u "#$uid" whoami
+sudo -u "#$uid" HOME="" whoami

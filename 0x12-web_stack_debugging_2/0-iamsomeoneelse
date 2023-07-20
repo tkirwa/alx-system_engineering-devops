@@ -1,7 +1,3 @@
 #!/usr/bin/env bash
-
-# Store the first argument as the username
 usr="$1"
-
-# Run the whoami command under the specified user using sudo
 sudo -u "$usr" whoami

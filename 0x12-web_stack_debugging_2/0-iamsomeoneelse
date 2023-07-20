@@ -17,4 +17,4 @@ uid=$(id -u "$username")
 result=$(sudo -u "#$uid" HOME="" whoami)
 
 # Output the result (username without HOME)
-echo "$result"
+echo -n "$result"

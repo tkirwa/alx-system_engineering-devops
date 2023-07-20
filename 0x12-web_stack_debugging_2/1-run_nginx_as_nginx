@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
-# Configures Nginx to run as the nginx user and listen on port 8080
 
-# Create the nginx user if it doesn't exist
-if ! id -u nginx >/dev/null 2>&1; then
-    adduser --system --no-create-home --disabled-login --group nginx
-fi
+# Stop Apache2 (Assuming Apache2 is running and needs to be stopped)
+pkill "apache2"
 
-# Update nginx.conf to run as the nginx user
-sed -i 's/user .*/user nginx;/' /etc/nginx/nginx.conf
+# Modify the Nginx configuration file to use 'nginx' user instead of 'root'
+sudo sed -i '1i user nginx;' /etc/nginx/nginx.conf
 
-# Update default site configuration to listen on port 8080
-sed -i 's/listen 80 default_server;/listen 8080 default_server;/' /etc/nginx/sites-enabled/default
+# Add '80' to the 'listen' directive in the default Nginx configuration file
+# This will ensure Nginx listens on port 80
+sudo sed -i 's/\<80\>/&80/' /etc/nginx/sites-available/default
 
-# Restart Nginx service
-service nginx restart
+# Set the permissions of the Nginx configuration file to 644 (owner read/write, group read, others read)
+# This ensures the file is not writable by others and only the owner can write to it.
+sudo chmod 644 /etc/nginx/nginx.conf
+
+# Restart Nginx service running as 'nginx' user
+sudo -u nginx service nginx restart

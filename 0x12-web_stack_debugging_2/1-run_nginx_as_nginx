@@ -20,5 +20,19 @@ sudo sed -i 's/listen 80 default_server;/listen 8080 default_server;/' /etc/ngin
 # This ensures the file is not writable by others and only the owner can write to it.
 sudo chmod 644 /etc/nginx/nginx.conf
 
+# Check if Nginx is actually running as the 'nginx' user
+if ps aux | grep -q '[n]ginx: master process'; then
+    echo "Nginx is running as the nginx user."
+else
+    echo "Error: Nginx is not running as the nginx user."
+fi
+
+# Check if Nginx is listening on port 8080
+if sudo netstat -tuln | grep -q ':8080'; then
+    echo "Nginx is listening on port 8080."
+else
+    echo "Error: Nginx is not listening on port 8080."
+fi
+
 # Restart Nginx service
 sudo service nginx restart

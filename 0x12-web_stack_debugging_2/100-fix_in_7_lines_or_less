@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# script that fixes the server issue and configuring Nginx to run as the nginx user
+# script that fixes the server issue and configuring Nginx to run as the nginx user - run nginx as another user
 pkill apache2
 sed -i 's/\([ :]\)80 default/\18080 default/' /etc/nginx/sites-enabled/default
 find /etc/nginx/nginx.conf | tee >(xargs chmod u+r) | sudo xargs chown nginx

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# This script runs the whoami command under the user passed as an argument
 
 # Check if an argument is provided
 if [ $# -ne 1 ]; then
@@ -9,5 +10,8 @@ fi
 # Store the first argument as the username
 username="$1"
 
-# Run the whoami command under the specified user
-sudo -u "$username" whoami
+# Get the user ID (UID) of the specified user without HOME environment variable
+uid=$(id -u "$username")
+
+# Run the whoami command under the specified user without HOME
+sudo -u "#$uid" whoami

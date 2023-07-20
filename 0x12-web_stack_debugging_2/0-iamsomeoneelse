@@ -6,5 +6,8 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 
-# Switch to the specified user and run the 'whoami' command
-su - "$1" -c "whoami"
+# Store the first argument as the username
+username="$1"
+
+# Run the whoami command under the specified user
+sudo -u "$username" whoami

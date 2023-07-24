@@ -1,50 +1,51 @@
 #!/usr/bin/python3
 """
-Returns information about his/her TODO list progress for a
-given employee ID using a REST API and exports the data to a CSV file.
+Module 0-gather_data_from_an_API
+Using "https://jsonplaceholder.typicode.com/"
+Returns information about his/her TODO list progress
 """
 import csv
 import requests
 from sys import argv
 
 
-def get_todo_csv():
-    """Fetches and exports employee's TODO list progress to a CSV file"""
+def gather_data_to_csv():
+    """Fetches data of employees and their todo tasks"""
 
-    # Make a GET request to fetch the user data using the given employee ID
-    r_user = requests.get('https://jsonplaceholder.typicode.com/users/{}'
-                          .format(argv[1]))
+    # Make a GET request to fetch data of all users
+    users_url = "https://jsonplaceholder.typicode.com/users"
+    users = requests.get(users_url)
 
-    # Make a GET request to fetch the TODO list data associated with
-    #  the same user ID
-    r_todo = requests.get('https://jsonplaceholder.typicode.com/todos?'
-                          'userId={}'.format(argv[1]))
+    # Find the user with the given employee ID and get their username
+    USERNAME = ""
+    for i in users.json():
+        if i.get("id") == int(argv[1]):
+            USERNAME = i.get("username")
+            break
 
-    try:
-        # Check if both requests were successful (status code 200)
-        r_user.raise_for_status()
-        r_todo.raise_for_status()
+    # Fetch all the TODO tasks associated with the given employee ID
+    TASK_STATUS_TITLE = []
+    todos = requests.get("http://jsonplaceholder.typicode.com/todos")
+    for t in todos.json():
+        if t.get('userId') == int(argv[1]):
+            TASK_STATUS_TITLE.append((t.get('completed'), t.get('title')))
 
-        # Parse the JSON response into dictionaries
-        user_dict = r_user.json()
-        task_dict = r_todo.json()
-
-        # Open a new CSV file with the name "<employee_id>.csv" in write mode
-        with open("{}.csv".format(argv[1]), "w") as csvfile:
-            # Create a CSV writer object using ',' as the delimiter and
-            #  quoting all fields
-            f = csv.writer(csvfile, delimiter=',', quoting=csv.QUOTE_ALL)
-
-            # Write each task's data to the CSV file as a row
-            for task in task_dict:
-                f.writerow([user_dict["id"], user_dict["username"],
-                            task["completed"], task["title"]])
-    except requests.exceptions.RequestException as e:
-        print(f"Error occurred: {e}")
-    except ValueError as e:
-        print(f"Error parsing JSON data: {e}")
+    """export to csv"""
+    # Create a new CSV file with the name "<employee_id>.csv" in write mode
+    filename = "{}.csv".format(argv[1])
+    with open(filename, "w") as csvfile:
+        fieldnames = ["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS",
+                      "TASK_TITLE"]
+        # Create a CSV writer object with quoting all fields
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames,
+                                quoting=csv.QUOTE_ALL)
+        # Write each task's data to the CSV file as a row
+        for task in TASK_STATUS_TITLE:
+            writer.writerow({"USER_ID": argv[1], "USERNAME": USERNAME,
+                             "TASK_COMPLETED_STATUS": task[0],
+                             "TASK_TITLE": task[1]})
 
 
 if __name__ == "__main__":
-    # Execute the get_todo_csv() function when the script is run
-    get_todo_csv()
+    # Execute the gather_data_to_csv() function when the script is run
+    gather_data_to_csv()

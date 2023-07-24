@@ -27,11 +27,3 @@ def gather_data_from_api(employee_id):
         if task['completed']:
             print(f"    {task['title']}")
 
-
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python3 0-gather_data_from_an_API.py <employee_id>")
-        sys.exit(1)
-
-    employee_id = int(sys.argv[1])
-    gather_data_from_api(employee_id)

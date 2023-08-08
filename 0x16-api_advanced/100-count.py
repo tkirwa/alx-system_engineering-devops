@@ -2,9 +2,8 @@ import requests
 
 
 def count_words(subreddit, word_list, after=None, counts={}):
-    # Construct the Reddit API URL for the subreddit with a limit of 100 posts
-    #  per request
-    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=100"
+    # Set the Reddit API URL for the subreddit
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     # Set a custom User-Agent header
     headers = {'User-Agent': 'MyRedditApp/1.0'}
     # Add 'after' parameter if it exists

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-100-count.py
+Module for counting occurrences of keywords in Reddit hot post titles.
 """
 
 import requests

@@ -1,34 +1,28 @@
 #!/usr/bin/python3
-""" Module for a function that queries the Reddit API recursively."""
-
+"""
+Module for a function that queries the Reddit API recursively.
+"""
 
 import requests
 
 
-def count_words(subreddit, word_list, after='', word_dict={}):
-    """ A function that queries the Reddit API parses the title of
-    all hot articles, and prints a sorted count of given keywords
-    (case-insensitive, delimited by spaces.
-    Javascript should count as javascript, but java should not).
-    If no posts match or the subreddit is invalid, it prints nothing.
-    """
-
-    if not word_dict:
-        for word in word_list:
-            if word.lower() not in word_dict:
-                word_dict[word.lower()] = 0
+def count_words(subreddit, word_list, after=None, word_dict=None):
+    """Recursively queries the Reddit API and counts keyword occurrences."""
+    if word_dict is None:
+        word_dict = {}
 
     if after is None:
-        wordict = sorted(word_dict.items(), key=lambda x: (-x[1], x[0]))
-        for word in wordict:
-            if word[1]:
-                print('{}: {}'.format(word[0], word[1]))
+        sorted_counts = sorted(word_dict.items(),
+                               key=lambda x: (-x[1], x[0]))
+        for word, count in sorted_counts:
+            if count > 0:
+                print('{}: {}'.format(word, count))
         return None
 
     url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
-    header = {'user-agent': 'redquery'}
+    headers = {'user-agent': 'redquery'}
     parameters = {'limit': 100, 'after': after}
-    response = requests.get(url, headers=header, params=parameters,
+    response = requests.get(url, headers=headers, params=parameters,
                             allow_redirects=False)
 
     if response.status_code != 200:
@@ -48,3 +42,16 @@ def count_words(subreddit, word_list, after='', word_dict={}):
         return None
 
     count_words(subreddit, word_list, aft, word_dict)
+
+
+if __name__ == '__main__':
+    import sys
+
+    if len(sys.argv) < 3:
+        print("Usage: {} <subreddit> <list of keywords>".format(sys.argv[0]))
+        print("Ex: {} programming 'python java javascript'"
+              .format(sys.argv[0]))
+    else:
+        subreddit = sys.argv[1]
+        word_list = [x.lower() for x in sys.argv[2].split()]
+        count_words(subreddit, word_list)

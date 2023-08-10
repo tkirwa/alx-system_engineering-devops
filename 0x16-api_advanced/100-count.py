@@ -1,5 +1,9 @@
 #!/usr/bin/python3
-"""A file to make a query to an endpoint"""
+"""
+This script retrieves hot articles from a specified subreddit
+ using the Reddit API,
+counts occurrences of keywords in their titles, and prints the results.
+"""
 from requests import request
 
 

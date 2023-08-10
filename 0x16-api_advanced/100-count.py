@@ -55,19 +55,7 @@ def count_words(subreddit, word_list, after="", word_dic={}):
             for w in word_list:
                 word_dic[w] += lower.count(w.lower())
 
-    except KeyError:  # Handle specific exception
+    except:
         return None
 
     count_words(subreddit, word_list, after, word_dic)
-
-
-if __name__ == "__main__":
-    import sys
-    if len(sys.argv) < 3:
-        print("Usage: {} <subreddit> <list of keywords>".format(sys.argv[0]))
-        print("Ex: {} programming 'python java javascript'"
-              .format(sys.argv[0]))
-    else:
-        subreddit = sys.argv[1]
-        keywords = [word.lower() for word in sys.argv[2:]]
-        count_words(subreddit, keywords)

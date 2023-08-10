@@ -1,7 +1,6 @@
 import requests
 
 
-# Function to get the hot articles from a subreddit using Reddit API
 def get_hot_articles(subreddit):
     url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     headers = {"User-Agent": "Reddit Keyword Counter"}
@@ -12,7 +11,6 @@ def get_hot_articles(subreddit):
         return []
 
 
-# Function to count occurrences of keywords in titles
 def count_keywords_in_titles(titles, keywords):
     keyword_count = {keyword: 0 for keyword in keywords}
     for title in titles:
@@ -23,7 +21,6 @@ def count_keywords_in_titles(titles, keywords):
     return keyword_count
 
 
-# Main function to count and print sorted keyword counts
 def count_words(subreddit, word_list):
     if not word_list:
         return

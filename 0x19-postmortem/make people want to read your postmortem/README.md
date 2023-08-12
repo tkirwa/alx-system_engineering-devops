@@ -1,4 +1,4 @@
-# Personal Budget App Web Stack Debugging Incident Postmortem: Unleashing the Drama!
+## Personal Budget App Web Stack Debugging Incident Postmortem: Unleashing the Drama!
 
 ![Dramatic Incident](https://live.staticflickr.com/5474/14063148918_de4744ac3c_z.jpg)
 

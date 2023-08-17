@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Find the Gunicorn master process ID
+MASTER_PID=$(ps aux | grep '[g]unicorn.*master' | awk '{print $2}')
+
+# Send HUP signal to the master process to gracefully reload workers
+kill -HUP $MASTER_PID
+
+echo "Gunicorn reloaded gracefully."

@@ -8,7 +8,8 @@ Group=ubuntu
 WorkingDirectory=/home/ubuntu/AirBnB_clone_v4
 # Environment="PATH=/path/to/venv/bin"
 # Environment="PATH=/home/ubuntu/AirBnB_clone_v4/venv/bin"
-ExecStart=/path/to/venv/bin/gunicorn --workers 3 --bind 0.0.0.0:5003 --error-logfile /tmp/airbnb-error.log --access-logfile /tmp/airbnb-access.log web_dynamic.2-hbnb:app
+# ExecStart=/path/to/venv/bin/gunicorn --workers 3 --bind 0.0.0.0:5003 --error-logfile /tmp/airbnb-error.log --access-logfile /tmp/airbnb-access.log web_dynamic.2-hbnb:app
+ExecStart=gunicorn --workers 3 --bind 0.0.0.0:5003 --error-logfile /tmp/airbnb-error.log --access-logfile /tmp/airbnb-access.log web_dynamic.2-hbnb:app
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
 TimeoutStopSec=5

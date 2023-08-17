@@ -1,18 +1,12 @@
 #!/bin/bash
 
-# Get the PID of the Gunicorn master process
-GUNICORN_PID=$(pgrep gunicorn)
+# Find the process IDs (PIDs) of Gunicorn workers
+worker_pids=$(pgrep -f 'gunicorn.*workers')
 
-if [ -n "$GUNICORN_PID" ]; then
-    echo "Reloading Gunicorn gracefully..."
-    
-    # Send a HUP signal to the Gunicorn master process
-    kill -HUP "$GUNICORN_PID"
-    
-    # Wait for a moment to allow workers to finish processing requests
-    sleep 5
-    
-    echo "Gunicorn reloaded gracefully."
-else
-    echo "Gunicorn is not running."
-fi
+# Gracefully reload the Gunicorn workers
+for pid in $worker_pids; do
+    echo "Reloading worker with PID: $pid"
+    kill -HUP $pid
+done
+
+echo "Gunicorn workers reloaded successfully."

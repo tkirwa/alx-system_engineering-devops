@@ -1,12 +1,18 @@
 #!/bin/bash
 
-# Find the process IDs (PIDs) of Gunicorn workers
-worker_pids=$(pgrep -f 'gunicorn.*workers')
+# Define the path to your Gunicorn executable
+GUNICORN_PATH="/home/ubuntu/.local/bin/gunicorn"
 
-# Gracefully reload the Gunicorn workers
-for pid in $worker_pids; do
-    echo "Reloading worker with PID: $pid"
-    kill -HUP $pid
-done
+# Define the number of workers you want to use
+NUM_WORKERS=4
 
-echo "Gunicorn workers reloaded successfully."
+# Define the Gunicorn app module and callable
+APP_MODULE="web_flask.0-hello_route:app"
+
+# Get the current Gunicorn master PID
+GUNICORN_PID=$(pgrep -f "$APP_MODULE")
+
+# Send HUP signal to gracefully reload workers
+kill -HUP $GUNICORN_PID
+
+echo "Graceful reload of Gunicorn workers initiated."

@@ -1,16 +1,14 @@
 [Unit]
-Description=Gunicorn instance to serve application
-After=network.target gunicorn.socket
+Description=Gunicorn application server running AirBnB_clone_v4
+Author=Tonny Kirwa
 
 [Service]
+Type=simple
 User=ubuntu
-Group=ubuntu
+Group=www-data
 WorkingDirectory=/home/ubuntu/AirBnB_clone_v4
-ExecStart=/home/ubuntu/.local/bin/gunicorn --workers 3 --bind 0.0.0.0:5003 --error-logfile /tmp/airbnb-error.log --access-logfile /tmp/airbnb-access.log web_dynamic.2-hbnb:app
-ExecReload=/bin/kill -s HUP $MAINPID
-KillMode=mixed
-TimeoutStopSec=5
-PrivateTmp=true
+ExecStart=/home/ubuntu/.local/bin/gunicorn --workers 3 --bind 0.0.0.0:5003 web_dynamic.2-hbnb:app >> /tmp/airbnb-access.log 2> /tmp/airbnb-error.log
+Restart=always
 
 [Install]
 WantedBy=multi-user.target

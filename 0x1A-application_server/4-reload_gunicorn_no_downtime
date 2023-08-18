@@ -7,17 +7,17 @@ gunicorn_pids=$(pgrep -f "[g]unicorn")
 
 # Print the current Gunicorn processes
 echo "Current Gunicorn processes:"
-ps auxf | grep "[g]unicorn"
+pgrep -fl "[g]unicorn"
 
 # Gracefully reload Gunicorn
 echo "Reloading Gunicorn..."
-kill -HUP $gunicorn_pids
+kill -HUP "$gunicorn_pids"
 
 # Wait for a moment to allow the workers to gracefully shut down
 sleep 5
 
 # Print the updated Gunicorn processes
 echo "Updated Gunicorn processes:"
-ps auxf | grep "[g]unicorn"
+pgrep -fl "[g]unicorn"
 
 echo "Gunicorn reload completed."

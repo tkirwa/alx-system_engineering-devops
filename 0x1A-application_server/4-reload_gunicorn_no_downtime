@@ -1,18 +1,23 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Define the path to your Gunicorn executable
-GUNICORN_PATH="/home/ubuntu/.local/bin/gunicorn"
+# This Bash script gracefully restarts Gunicorn
 
-# Define the number of workers you want to use
-NUM_WORKERS=4
+# Get the PIDs of the existing Gunicorn processes
+gunicorn_pids=$(pgrep -f "[g]unicorn")
 
-# Define the Gunicorn app module and callable
-APP_MODULE="web_flask.0-hello_route:app"
+# Print the current Gunicorn processes
+echo "Current Gunicorn processes:"
+ps auxf | grep "[g]unicorn"
 
-# Get the current Gunicorn master PID
-GUNICORN_PID=$(pgrep -f "$APP_MODULE")
+# Gracefully reload Gunicorn
+echo "Reloading Gunicorn..."
+kill -HUP $gunicorn_pids
 
-# Send HUP signal to gracefully reload workers
-kill -HUP $GUNICORN_PID
+# Wait for a moment to allow the workers to gracefully shut down
+sleep 5
 
-echo "Graceful reload of Gunicorn workers initiated."
+# Print the updated Gunicorn processes
+echo "Updated Gunicorn processes:"
+ps auxf | grep "[g]unicorn"
+
+echo "Gunicorn reload completed."

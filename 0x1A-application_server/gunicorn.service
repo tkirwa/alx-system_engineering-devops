@@ -1,10 +1,11 @@
 [Unit]
 Description=Gunicorn application server running AirBnB_clone_v4
-Author=Tonny Kirwa
+After=network.target
 
 [Service]
 Type=simple
 User=ubuntu
+# Group=ubuntu
 Group=www-data
 WorkingDirectory=/home/ubuntu/AirBnB_clone_v4
 ExecStart=/home/ubuntu/.local/bin/gunicorn --workers 3 --bind 0.0.0.0:5003 web_dynamic.2-hbnb:app >> /tmp/airbnb-access.log 2> /tmp/airbnb-error.log

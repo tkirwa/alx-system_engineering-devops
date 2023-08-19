@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 # Gracefully reloads Gunicorn - restart gunicorn workers
-#shellcheck disable=SC2009
-ps aux | pgrep gunicorn | awk '{ print $2 }' | xargs kill -HUP
+
+# Find and send SIGHUP signal to Gunicorn processes
+pkill -HUP gunicorn

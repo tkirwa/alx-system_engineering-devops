@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Gracefully reloads Gunicorn - restart gunicorn workers
+#shellcheck disable=SC2009
 
 # Get the process IDs of Gunicorn workers
 worker_pids=$(pgrep gunicorn)

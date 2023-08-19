@@ -1,0 +1,39 @@
+Write a simple Bash script to reload Gunicorn in a graceful way.
+
+Requirements
+- Answer file is present and is not empty
+- First line contains #!/usr/bin/env bash
+- The second line contains a comment describing what your Bash script does
+- Your Bash script successfully passes shellcheck
+- Your script gracefully restart Gunicorn
+
+
+================================4-reload_gunicorn_no_downtime================================
+#!/usr/bin/env bash
+# Gracefully reloads Gunicorn - restart gunicorn workers
+#shellcheck disable=SC2009
+ps aux | pgrep gunicorn | awk '{ print $2 }' | xargs kill -HUP
+
+
+=============================================================================================
+#!/usr/bin/env bash
+# Gracefully reloads Gunicorn - restart gunicorn workers
+
+# Get the process IDs of Gunicorn workers
+worker_pids=$(pgrep gunicorn)
+
+if [[ -n "$worker_pids" ]]; then
+    # Send SIGHUP signal to each worker process
+    for pid in $worker_pids; do
+        kill -HUP "$pid"
+    done
+    echo "Gunicorn workers gracefully reloaded."
+else
+    echo "No Gunicorn workers found."
+fi
+
+=============================================================================================
+#!/usr/bin/env bash
+# Gracefully reloads Gunicorn - restart gunicorn workers
+#shellcheck disable=SC2009
+ps aux | pgrep gunicorn | awk '{ print $2 }' | xargs kill -HUP
